@@ -1,0 +1,75 @@
+.banner {
+  height: 80vh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      to right,
+      rgba(15,16,20,.95),
+      rgba(15,16,20,.4),
+      rgba(15,16,20,.1)
+  );
+}
+
+.banner-content {
+  position: relative;
+  z-index: 2;
+  width: 50%;
+  padding-left: 60px;
+}
+
+.banner h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.banner p {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.overview {
+  margin: 20px 0;
+  color: #ddd;
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.buttons button {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.buttons button:first-child {
+  background: white;
+}
+
+.buttons button:last-child {
+  background: rgba(255,255,255,.2);
+  color: white;
+}
+
+.banner-fade {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(
+      transparent,
+      #0f1014
+  );
+}

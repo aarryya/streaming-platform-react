@@ -1,0 +1,28 @@
+.movie-row {
+  padding: 20px 40px;
+}
+
+.movie-row h2 {
+  font-size: 20px;
+  margin-bottom: 14px;
+  color: #fff;
+}
+
+.cards {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: #1f80e0 transparent;
+}
+
+.cards::-webkit-scrollbar {
+  height: 5px;
+}
+
+.cards::-webkit-scrollbar-thumb {
+  background: #1f80e0;
+  border-radius: 4px;
+}
