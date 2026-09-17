@@ -26,6 +26,12 @@ pipeline {
                 bat 'npm run build'
             }
         }
+
+        stage('Docker Build') {
+            steps {
+                bat 'docker build -t streaming-platform-react:%BUILD_NUMBER% .'
+            }
+        }
     }
 
     post {
@@ -38,3 +44,4 @@ pipeline {
         }
     }
 }
+
