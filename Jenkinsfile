@@ -32,16 +32,22 @@ pipeline {
                 bat 'docker build -t streaming-platform-react:%BUILD_NUMBER% .'
             }
         }
+
+        stage('Trivy Security Scan') {
+            steps {
+                bat 'docker save streaming-platform-react:%BUILD_NUMBER% -o streaming-platform-react.tar'
+                bat 'docker run --rm -v "%WORKSPACE%:/work" aquasec/trivy:latest image --input /work/streaming-platform-react.tar --timeout 15m'
+            }
+        }
     }
 
     post {
         success {
-            echo 'CI pipeline completed successfully!'
+            echo 'CI/CD pipeline completed successfully!'
         }
 
         failure {
-            echo 'CI pipeline failed. Check the console output.'
+            echo 'CI/CD pipeline failed. Check the console output.'
         }
     }
 }
-
