@@ -10,16 +10,12 @@ function Banner() {
     const loadBanner = async () => {
       try {
         const movies = await fetchMovies(requests.trending);
-
-        const randomMovie =
-          movies[Math.floor(Math.random() * movies.length)];
-
-        setMovie(randomMovie);
+        const withBackdrop = movies.filter((m) => m.backdrop_path);
+        setMovie(withBackdrop[Math.floor(Math.random() * withBackdrop.length)]);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     };
-
     loadBanner();
   }, []);
 
@@ -33,24 +29,18 @@ function Banner() {
       }}
     >
       <div className="banner-content">
-        <h1>{movie.title}</h1>
-
+        <h1>{movie.title || movie.name}</h1>
         <p>
-          ⭐ {movie.vote_average.toFixed(1)}
+          ⭐ {movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"}
           {" • "}
-          {movie.release_date?.substring(0, 4)}
+          {movie.release_date?.substring(0, 4) || movie.first_air_date?.substring(0, 4)}
         </p>
-
-        <p className="overview">
-          {movie.overview}
-        </p>
-
+        <p className="overview">{movie.overview}</p>
         <div className="buttons">
           <button>▶ Watch Now</button>
           <button>＋ My List</button>
         </div>
       </div>
-
       <div className="banner-fade"></div>
     </header>
   );
