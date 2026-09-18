@@ -51,7 +51,9 @@ pipeline {
                         variable: 'REACT_ENV_CONTENT'
                     )
                 ]) {
-                    bat 'powershell -NoProfile -Command "[System.IO.File]::WriteAllText(''%WORKSPACE%\\.env'', $env:REACT_ENV_CONTENT)"'
+                    bat """
+                        powershell -NoProfile -Command "[System.IO.File]::WriteAllText(\\\"%WORKSPACE%\\\\.env\\\", \\$env:REACT_ENV_CONTENT)"
+                    """
                 }
             }
         }
@@ -78,11 +80,13 @@ pipeline {
 
         stage('Docker Push') {
             steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-credentials',
-                    usernameVariable: 'DOCKERHUB_USERNAME',
-                    passwordVariable: 'DOCKERHUB_TOKEN'
-                )]) {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-credentials',
+                        usernameVariable: 'DOCKERHUB_USERNAME',
+                        passwordVariable: 'DOCKERHUB_TOKEN'
+                    )
+                ]) {
 
                     bat 'echo %DOCKERHUB_TOKEN%| docker login -u %DOCKERHUB_USERNAME% --password-stdin'
 
