@@ -51,9 +51,7 @@ pipeline {
                         variable: 'REACT_ENV_CONTENT'
                     )
                 ]) {
-                    bat """
-                        powershell -NoProfile -Command "[System.IO.File]::WriteAllText(\\\"%WORKSPACE%\\\\.env\\\", \\$env:REACT_ENV_CONTENT)"
-                    """
+                    bat 'powershell -NoProfile -Command "$env:REACT_ENV_CONTENT | Set-Content -Path ''.env'' -Encoding UTF8"'
                 }
             }
         }
