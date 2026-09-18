@@ -58,7 +58,31 @@ pipeline {
         stage('Trivy Security Scan') {
             steps {
                 bat 'docker save streaming-platform-react:%BUILD_NUMBER% -o streaming-platform-react.tar'
+
                 bat 'docker run --rm -v "%WORKSPACE%:/work" aquasec/trivy:latest image --input /work/streaming-platform-react.tar --timeout 15m'
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-credentials',
+                    usernameVariable: 'DOCKERHUB_USERNAME',
+                    passwordVariable: 'DOCKERHUB_TOKEN'
+                )]) {
+
+                    bat 'echo %DOCKERHUB_TOKEN%| docker login -u %DOCKERHUB_USERNAME% --password-stdin'
+
+                    bat 'docker tag streaming-platform-react:%BUILD_NUMBER% %DOCKERHUB_USERNAME%/streaming-platform-react:%BUILD_NUMBER%'
+
+                    bat 'docker tag streaming-platform-react:%BUILD_NUMBER% %DOCKERHUB_USERNAME%/streaming-platform-react:latest'
+
+                    bat 'docker push %DOCKERHUB_USERNAME%/streaming-platform-react:%BUILD_NUMBER%'
+
+                    bat 'docker push %DOCKERHUB_USERNAME%/streaming-platform-react:latest'
+
+                    bat 'docker logout'
+                }
             }
         }
     }
