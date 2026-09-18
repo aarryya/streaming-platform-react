@@ -36,7 +36,7 @@ pipeline {
                             installationName: 'SonarQube',
                             envOnly: true
                         ) {
-                            bat "\"${scannerHome}\\bin\\sonar-scanner.bat\" -Dsonar.projectKey=streaming-platform-react -Dsonar.projectName=\"Streaming Platform React\" -Dsonar.sources=src"
+                            bat "\"${scannerHome}\\bin\\sonar-scanner.bat\" -Dsonar.projectKey=Streaming-Platform-React -Dsonar.projectName=\"Streaming Platform React\" -Dsonar.sources=src"
                         }
                     }
                 }
