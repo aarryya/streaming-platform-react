@@ -26,10 +26,7 @@ pipeline {
                 script {
                     def scannerHome = tool 'SonarScanner'
 
-                    withSonarQubeEnv(
-                        installationName: 'SonarQube',
-                        credentialsId: 'sonarqube-token'
-                    ) {
+                    withSonarQubeEnv('SonarQube') {
                         bat "\"${scannerHome}\\bin\\sonar-scanner.bat\" -Dsonar.projectKey=streaming-platform-react -Dsonar.projectName=\"Streaming Platform React\" -Dsonar.sources=src"
                     }
                 }
