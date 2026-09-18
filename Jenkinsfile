@@ -21,6 +21,18 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    def scannerHome = tool 'SonarScanner'
+
+                    withSonarQubeEnv('SonarQube') {
+                        bat "\"${scannerHome}\\bin\\sonar-scanner.bat\" -Dsonar.projectKey=streaming-platform-react -Dsonar.projectName=\"Streaming Platform React\" -Dsonar.sources=src"
+                    }
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 bat 'npm run build'
