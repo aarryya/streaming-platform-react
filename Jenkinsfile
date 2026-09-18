@@ -32,7 +32,10 @@ pipeline {
                             variable: 'SONAR_TOKEN'
                         )
                     ]) {
-                        withSonarQubeEnv('SonarQube', envOnly: true) {
+                        withSonarQubeEnv(
+                            installationName: 'SonarQube',
+                            envOnly: true
+                        ) {
                             bat "\"${scannerHome}\\bin\\sonar-scanner.bat\" -Dsonar.projectKey=streaming-platform-react -Dsonar.projectName=\"Streaming Platform React\" -Dsonar.sources=src"
                         }
                     }
