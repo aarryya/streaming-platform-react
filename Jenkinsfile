@@ -43,6 +43,19 @@ pipeline {
             }
         }
 
+        stage('Prepare Environment') {
+            steps {
+                withCredentials([
+                    string(
+                        credentialsId: 'react-env',
+                        variable: 'REACT_ENV_CONTENT'
+                    )
+                ]) {
+                    bat 'powershell -NoProfile -Command "[System.IO.File]::WriteAllText(''%WORKSPACE%\\.env'', $env:REACT_ENV_CONTENT)"'
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 bat 'npm run build'
@@ -88,6 +101,11 @@ pipeline {
     }
 
     post {
+        always {
+            bat 'if exist .env del /q .env'
+            bat 'if exist streaming-platform-react.tar del /q streaming-platform-react.tar'
+        }
+
         success {
             echo 'CI/CD pipeline completed successfully!'
         }

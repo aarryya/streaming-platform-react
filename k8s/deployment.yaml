@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streaming-platform
+  labels:
+    app: streaming-platform
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: streaming-platform
+  template:
+    metadata:
+      labels:
+        app: streaming-platform
+    spec:
+      containers:
+        - name: streaming-platform
+          image: aarrya/streaming-platform-react:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: streaming-platform-service
+spec:
+  selector:
+    app: streaming-platform
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort
+  
