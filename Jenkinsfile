@@ -51,7 +51,7 @@ pipeline {
                         variable: 'REACT_ENV_CONTENT'
                     )
                 ]) {
-                    bat 'powershell -NoProfile -Command "$env:REACT_ENV_CONTENT | Set-Content -Path ''.env'' -Encoding UTF8"'
+                    bat 'echo %REACT_ENV_CONTENT% > .env'
                 }
             }
         }
